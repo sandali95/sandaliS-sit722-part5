@@ -23,7 +23,7 @@ spec:
         - containerPort: 8082
         env:
         - name: DATABASE_URL
-          value: "postgresql://booksdb_sv6s_user:ku6R3ciKcn1hM5RLPJQ1wCEhtiOLUtAR@dpg-crd5i4t2ng1s73fok0g0-a.oregon-postgres.render.com/booksdb_sv6s"
+          value: "postgresql://booksdb_afas_user:InDKESfvC1v9NMlHaBlzbr8e3TtiYrpG@dpg-cri140rtq21c73856bb0-a.oregon-postgres.render.com/booksdb_afas"
 ---
 apiVersion: v1
 kind: Service
@@ -62,7 +62,7 @@ spec:
         - containerPort: 8081
         env:
         - name: DATABASE_URL
-          value: "postgresql://booksdb_sv6s_user:ku6R3ciKcn1hM5RLPJQ1wCEhtiOLUtAR@dpg-crd5i4t2ng1s73fok0g0-a.oregon-postgres.render.com/booksdb_sv6s"  
+          value: "postgresql://booksdb_afas_user:InDKESfvC1v9NMlHaBlzbr8e3TtiYrpG@dpg-cri140rtq21c73856bb0-a.oregon-postgres.render.com/booksdb_afas"  
 ---
 apiVersion: v1
 kind: Service
