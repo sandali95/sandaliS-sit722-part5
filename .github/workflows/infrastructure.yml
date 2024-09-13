@@ -19,7 +19,7 @@ env:
 
 jobs:
               
-terraform-apply:
+  terraform-apply:
     name: 'Terraform Apply'
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name== 'push'
