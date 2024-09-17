@@ -55,3 +55,32 @@ jobs:
     - name: Terraform Apply
       working-directory: scripts/terraform
       run: terraform apply -auto-approve
+
+    # Attch Container Registry to AKS cluster
+    - name: Attch Container Registry to AKS cluster
+      run: az aks update --resource-group booksApp --name booksApp --attach-acr booksApp   
+
+    # Get AKS configs
+    - name: Get AKS Kubeconfig
+      run: az aks get-credentials --resource-group booksApp --name booksApp --file kubeconfig --overwrite-existing 
+
+    - name: Upload Kubeconfig as Secret
+      run: echo "KUBE_CONFIG=$(cat kubeconfig | base64)" >> $GITHUB_ENV
+
+    - name: Set KUBE_CONFIG Secret
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const base64KubeConfig = process.env.KUBE_CONFIG;
+          await github.actions.createOrUpdateSecretForRepo({
+          owner: context.repo.owner,
+          repo: context.repo.repo,
+          secret_name: 'KUBE_CONFIG',
+          encrypted_value: base64KubeConfig
+          });
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+    
+
