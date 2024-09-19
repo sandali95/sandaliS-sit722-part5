@@ -40,6 +40,14 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE.
       - uses: actions/checkout@v3
 
+      # Get AKS configs
+      - name: Connect to Kubernetes
+        run: az aks get-credentials --resource-group booksApp --name booksApp --file kubeconfig --overwrite-existing
+      
+      # Attch Container Registry to AKS cluster
+      - name: Attch Container Registry to AKS cluster
+        run: az aks update --resource-group booksApp --name booksApp --attach-acr booksApp   
+
       #
       # Builds the Docker image.
       #
@@ -65,5 +73,12 @@ jobs:
       #
       # Expands the configuration template and deploys the microservice.
       #
-      - name: Deploy
+      - name: Deploy microservice
         run: ./scripts/cd/deploy.sh
+
+      - name: Verify Kubernetes Deployment
+        run: |
+          echo "** kubectl get deployment **"
+          | kubectl get deployment |
+          kubectl get pods |
+          kubectl get services
