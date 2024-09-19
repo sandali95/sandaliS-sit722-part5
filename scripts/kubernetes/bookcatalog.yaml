@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: book-catalog-deployment
+  labels:
+    app: book-catalog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: book-catalog
+  template:
+    metadata:
+      labels:
+        app: book-catalog
+    spec:
+      containers:
+      - name: book-catalog
+        image: $CONTAINER_REGISTRY/$NAME:$VERSION
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8082
+        env:
+        - name: DATABASE_URL
+          value: "postgresql://booksdb_afas_user:InDKESfvC1v9NMlHaBlzbr8e3TtiYrpG@dpg-cri140rtq21c73856bb0-a.oregon-postgres.render.com/booksdb_afas"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: book-catalog-service
+spec:
+  type: LoadBalancer  
+  selector:
+    app: book-catalog
+  ports:
+    - protocol: TCP
+      port: 80  
+      targetPort: 8082
