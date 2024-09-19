@@ -21,6 +21,18 @@ on:
   # Allows deployment to be invoked manually through the GitHub Actions user interface.
   #
   workflow_dispatch: 
+#Special permissions required for OIDC authentication
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+#These environment variables are used by the terraform azure provider
+env:
+  ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
+  ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+  ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
+  ARM_CLIENT_SECRET: "${{ secrets.AZURE_CLIENT_SECRET }}"
 
 jobs:
 
