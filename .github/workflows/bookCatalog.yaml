@@ -52,6 +52,13 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE.
       - uses: actions/checkout@v3
 
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          
       # Get AKS configs
       - name: Connect to Kubernetes
         run: az aks get-credentials --resource-group booksApp --name booksApp --file kubeconfig --overwrite-existing
