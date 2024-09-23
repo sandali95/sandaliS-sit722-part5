@@ -56,3 +56,19 @@ jobs:
     - name: Terraform Apply
       working-directory: scripts/terraform
       run: terraform apply -auto-approve
+
+    - name: GitHub-Cli login
+      run: |
+          echo "${{ secrets.TOKEN }}" | gh auth login --with-token
+
+    - name: Set Secrets
+      run: |
+          acr_name=$(az acr list | jq -r '.[0].loginServer')
+          gh secret set CONTAINER_REGISTRY --body "$acr_name"
+
+          az acr credential show --name "$acr_name" --query "{username:username, passwords:passwords[0].value}" --output json > credentials.json
+          gh secret set REGISTRY_UN --body "$(cat credentials.json | jq -r '.username')"
+          gh secret set REGISTRY_PW --body "$(cat credentials.json | jq -r '.passwords')"
+
+          az aks get-credentials --resource-group ${{ vars.AZURE_RESOURCE_NAME }} --name ${{ vars.APP_NAME }}  
+          gh secret set KUBE_CONFIG --body "$(cat ~/.kube/config | base64 -w 0)"
