@@ -22,7 +22,7 @@ spec:
         - containerPort: 8082
         env:
         - name: DATABASE_URL
-          value: "postgresql://booksdb_afas_user:InDKESfvC1v9NMlHaBlzbr8e3TtiYrpG@dpg-cri140rtq21c73856bb0-a.oregon-postgres.render.com/booksdb_afas"
+          value: $DATABASE_URL
 ---
 apiVersion: v1
 kind: Service
