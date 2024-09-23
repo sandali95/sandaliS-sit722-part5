@@ -11,7 +11,3 @@ variable "location" {
 variable "kubernetes_version" {
   default = "1.30.2"
 }
-
-variable "azure_resource_name" {
-  default = "deakinuni"
-}
