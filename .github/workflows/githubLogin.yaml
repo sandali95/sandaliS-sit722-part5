@@ -1,4 +1,4 @@
-name: "Terraform Plan/Apply"
+name: "Set Github Secrets"
 
 on:
   workflow_dispatch:
