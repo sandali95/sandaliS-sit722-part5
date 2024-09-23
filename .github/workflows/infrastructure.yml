@@ -20,7 +20,6 @@ env:
   ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
   ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
   ARM_CLIENT_SECRET: "${{ secrets.AZURE_CLIENT_SECRET }}"
-  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   terraform-apply:
@@ -63,7 +62,7 @@ jobs:
 
       - name: GitHub-Cli login
         run: |
-          echo "${{ secrets.TOKEN }}" | gh auth login --with-token
+          echo "${{ secrets.GH_TOKEN }}" | gh auth login --with-token
 
       - name: Set Secrets
         run: |
