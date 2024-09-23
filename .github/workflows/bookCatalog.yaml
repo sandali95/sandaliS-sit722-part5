@@ -47,7 +47,7 @@ jobs:
 
       # Get AKS configs
       - name: Connect to Kubernetes
-        run: az aks get-credentials --resource-group ${{ vars.AZURE_RESOURCE_NAME }} --name ${{ vars.APP_NAME }} 
+        run: az aks get-credentials --resource-group ${{ vars.RESOURCE_NAME }} --name ${{ vars.APP_NAME }} 
 
       #
       # Builds the Docker image.
