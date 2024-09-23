@@ -57,6 +57,11 @@ jobs:
       working-directory: scripts/terraform
       run: terraform apply -auto-approve
 
+    - name: Install dependencies
+      run: |
+          sudo apt install gh -y
+          sudo apt install jq -y  
+
     - name: GitHub-Cli login
       run: |
           echo "${{ secrets.TOKEN }}" | gh auth login --with-token
