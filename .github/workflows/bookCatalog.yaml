@@ -68,6 +68,9 @@ jobs:
       - name: Deploy microservice
         run: ./scripts/cd/deploy.sh
 
+      #
+      # Verify Deployment.
+      #
       - name: Verify Kubernetes Deployment
         run: |
           echo "** kubectl get deployment **"

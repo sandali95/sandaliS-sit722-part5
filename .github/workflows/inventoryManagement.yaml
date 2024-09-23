@@ -61,9 +61,15 @@ jobs:
       - name: Publish
         run: ./scripts/cd/push-image.sh
 
+      #
+      # Deploy the service.
+      #
       - name: Deploy microservice
         run: ./scripts/cd/deploy.sh
 
+      #
+      # Verify Deployment.
+      #
       - name: Verify Kubernetes Deployment
         run: |
           echo "** kubectl get deployment **"
@@ -71,5 +77,5 @@ jobs:
           echo "** kubectl get pods **"
           kubectl get pods
           echo "** kubectl get services **"
-          kubectl get services 
+          kubectl get services
     
