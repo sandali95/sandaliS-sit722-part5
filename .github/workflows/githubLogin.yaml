@@ -8,6 +8,7 @@ permissions:
   id-token: write
   contents: read
   pull-requests: write
+  actions: write # Allow the workflow to write secrets to the repository
 
 #These environment variables are used by the terraform azure provider
 env:
