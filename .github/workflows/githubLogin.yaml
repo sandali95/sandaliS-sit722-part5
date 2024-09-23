@@ -1,0 +1,44 @@
+name: "Terraform Plan/Apply"
+
+on:
+  workflow_dispatch:
+
+#Special permissions required for OIDC authentication
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+#These environment variables are used by the terraform azure provider
+env:
+  ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
+  ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+  ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
+  ARM_CLIENT_SECRET: "${{ secrets.AZURE_CLIENT_SECRET }}"
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  Github-Actions:
+    name: "Github Actions"
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set Secrets
+        run: |
+          acr_name=$(az acr list | jq -r '.[0].loginServer')
+          gh secret set CONTAINER_REGISTRY --body "$acr_name"
+
+          az acr credential show --name "$acr_name" --query "{username:username, passwords:passwords[0].value}" --output json > credentials.json
+          gh secret set REGISTRY_UN --body "$(cat credentials.json | jq -r '.username')"
+          gh secret set REGISTRY_PW --body "$(cat credentials.json | jq -r '.passwords')"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
